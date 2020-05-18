@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "products" {
 
 resource "azurerm_subnet_route_table_association" "load_balancer" {
   subnet_id      = azurerm_subnet.load_balancer.id
-  route_table_id = data.azurerm_route_table.load_balancer.id
+  route_table_id = azurerm_route_table.load_balancer.id
 }
 
 
@@ -57,21 +57,25 @@ module "products_web" {
   origin_host_name     = module.products.storage_account_primary_web_host
 }
 
-data "azurerm_route_table" "load_balancer" {
+resource "azurerm_route_table" "load_balancer" {
   name                = "adarz-spoke-rt-products-internal-only"
-  resource_group_name = "asazr-rg-1001"
+  resource_group_name = "spiketerraform-rg" # using the same rg for everything for now.
+
+  location            = var.REGION
 }
 
-data "azurerm_virtual_network" "cluster" {
+resource "azurerm_virtual_network" "cluster" {
   name                = "aparz-spoke-np-products"
-  resource_group_name = "adazr-rg-1001"
+  location            = var.REGION
+  resource_group_name = azurerm_resource_group.products.name
+  address_space       = ["10.5.65.128/25"]
 }
 
 resource "azurerm_subnet" "load_balancer" {
   name                 = "adarz-spoke-products-sn-01"
   address_prefixes     = ["10.5.65.0/26"]
-  resource_group_name  = data.azurerm_virtual_network.cluster.resource_group_name
-  virtual_network_name = data.azurerm_virtual_network.cluster.name
+  resource_group_name  = azurerm_virtual_network.cluster.resource_group_name
+  virtual_network_name = azurerm_virtual_network.cluster.name
 }
 
 # AKS
@@ -83,14 +87,14 @@ module cluster {
   environment                           = var.ENVIRONMENT
   location                              = var.REGION
   resource_group_name                   = azurerm_resource_group.products.name
-  vnet_name                             = data.azurerm_virtual_network.cluster.name
-  vnet_resource_group                   = data.azurerm_virtual_network.cluster.resource_group_name
+  vnet_name                             = azurerm_virtual_network.cluster.name
+  vnet_resource_group                   = azurerm_virtual_network.cluster.resource_group_name
   lb_subnet_id                          = azurerm_subnet.load_balancer.id
   cluster_subnet_name                   = "adarz-spoke-products-sn-02"
   cluster_subnet_cidr                   = "10.5.65.64/26"
   cluster_route_destination_cidr_blocks = var.CLUSTER_ROUTE_DESTINATION_CIDR_BLOCKS
   cluster_route_next_hop                = var.CLUSTER_ROUTE_NEXT_HOP
-  lb_route_table_id                     = data.azurerm_route_table.load_balancer.id
+  lb_route_table_id                     = azurerm_route_table.load_balancer.id
   support_email_addresses               = var.SUPPORT_EMAIL_ADDRESSES
 }
 

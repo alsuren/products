@@ -56,6 +56,8 @@ This step is limited to developers who have `owner` rights on Azure. If this is 
 
 6. Copy and paste the final output from this script and populate with the correspondent value in `.env` file (TODO: make it obvious how to map the json keys to to env keys)
 
+7. run `terraform init`. If it bombs out, you may have to remove .terraform/ before retrying.
+
 ## Provisioning infrastructure in an existing environment
 
 1. Change to the relevant environment directory (e.g. `infrastructure/environments/non-prod`)

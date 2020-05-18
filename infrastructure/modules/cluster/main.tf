@@ -94,8 +94,7 @@ resource "azurerm_route" "cluster_nodes" {
   resource_group_name    = azurerm_kubernetes_cluster.cluster.node_resource_group
   route_table_name       = split("/", data.azurerm_subnet.cluster_nodes.route_table_id)[8]
   address_prefix         = each.value
-  next_hop_type          = "VirtualAppliance"
-  next_hop_in_ip_address = var.cluster_route_next_hop
+  next_hop_type          = "None"
 }
 
 resource "random_string" "cluster_analytics" {
