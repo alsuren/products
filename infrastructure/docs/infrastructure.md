@@ -44,7 +44,9 @@ This step is limited to developers who have `owner` rights on Azure. If this is 
    ../../scripts/create-storage-account.sh
    ```
 
-4. Copy and paste the final output from this script and populate with the correspondent value in `.env` file
+4. Copy and paste the final output from this script:
+4.1 populate with the correspondent value in `.env` file
+4.2 in main.tf set storage_account_name to the value generated for TF_VAR_STORAGE_ACCOUNT_NAME
 
 5. [Create a service principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#password-based-authentication) password based authentication replacing `<ServicePrincipalName>` with the name of the account you want to use
 
@@ -52,7 +54,7 @@ This step is limited to developers who have `owner` rights on Azure. If this is 
    az ad sp create-for-rbac --name <ServicePrincipalName>
    ```
 
-6. Copy and paste the final output from this script and populate with the correspondent value in `.env` file
+6. Copy and paste the final output from this script and populate with the correspondent value in `.env` file (TODO: make it obvious how to map the json keys to to env keys)
 
 ## Provisioning infrastructure in an existing environment
 

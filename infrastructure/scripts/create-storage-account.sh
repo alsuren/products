@@ -3,10 +3,13 @@
 set -eux
 
 RESOURCE_GROUP_NAME=tfstate
+# FIXME: This isn't very helpful.
+# How do I link this up with the value that is in main.tf?
 STORAGE_ACCOUNT_NAME=tfstate$RANDOM
 CONTAINER_NAME=tfstate
 
 # Create resource group
+# TODO: do we want to limit this to england/wales, or is europe okay?
 az group create --name $RESOURCE_GROUP_NAME --location westeurope
 
 # Create storage account

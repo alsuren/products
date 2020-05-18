@@ -8,9 +8,10 @@ provider "random" {
 }
 
 terraform {
+  required_version = "0.12.25"
   backend "azurerm" {
     resource_group_name  = "tfstate"
-    storage_account_name = "mhranonprodtfstate"
+    storage_account_name = "tfstate22973"
     container_name       = "tfstate"
     key                  = "non-prod.terraform.tfstate"
   }
