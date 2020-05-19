@@ -18,7 +18,7 @@ terraform {
 }
 
 locals {
-  namespace        = "mhraproductsnonprod"
+  namespace        = "spikemhraproductsnonprod"
   service_bus_name = "doc-index-updater-${var.ENVIRONMENT}"
 }
 
@@ -104,7 +104,7 @@ module cpd {
 
   environment         = var.ENVIRONMENT
   location            = var.REGION
-  namespace           = "mhracpdnonprod"
+  namespace           = "spikecpdnonprod"
   resource_group_name = azurerm_resource_group.products.name
 }
 

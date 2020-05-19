@@ -1,5 +1,5 @@
 locals {
-  name = "doc-index-updater"
+  name = "spike-doc-index-updater"
   queue_names = [
     "create",
     "delete",
@@ -8,7 +8,7 @@ locals {
 
 # Service Bus
 resource "azurerm_servicebus_namespace" "doc_index_updater_service_bus" {
-  name = var.name
+  name = "spike${var.name}"
 
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -44,7 +44,7 @@ resource "azurerm_servicebus_queue_authorization_rule" "doc_index_updater_servic
 
 
 resource "azurerm_redis_cache" "doc_index_updater_redis" {
-  name = var.name
+  name = "spike${var.name}"
 
   capacity            = 0
   enable_non_ssl_port = false

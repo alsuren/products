@@ -23,20 +23,20 @@ resource "azurerm_storage_container" "cpd_website" {
 }
 
 resource "azurerm_cdn_profile" "cpd" {
-  name                = "mhracpd${var.environment}"
+  name                = "spikemhracpd${var.environment}"
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = "Standard_Microsoft"
 }
 
 resource "azurerm_cdn_endpoint" "cpd" {
-  name                = "mhracpd${var.environment}"
+  name                = "spikemhracpd${var.environment}"
   profile_name        = azurerm_cdn_profile.cpd.name
   location            = azurerm_cdn_profile.cpd.location
   resource_group_name = var.resource_group_name
   origin_host_header  = azurerm_storage_account.cpd.primary_web_host
   origin {
-    name      = "mhracpd${var.environment}"
+    name      = "spikemhracpd${var.environment}"
     host_name = azurerm_storage_account.cpd.primary_web_host
   }
 }
