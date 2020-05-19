@@ -59,15 +59,15 @@ module "products_web" {
 
 resource "azurerm_route_table" "load_balancer" {
   name                = "adarz-spoke-rt-products-internal-only"
-  resource_group_name = "spiketerraform-rg" # using the same rg for everything for now.
-
+  # put this in the same resource group to avoid "Resource group 'asazr-rg-1001' could not be found."
+  resource_group_name = "adazr-rg-1001"
   location            = var.REGION
 }
 
 resource "azurerm_virtual_network" "cluster" {
   name                = "aparz-spoke-np-products"
   location            = var.REGION
-  resource_group_name = azurerm_resource_group.products.name
+  resource_group_name = "adazr-rg-1001"
   address_space       = ["10.5.65.128/25"]
 }
 
