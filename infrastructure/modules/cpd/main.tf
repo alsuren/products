@@ -17,7 +17,8 @@ resource "azurerm_storage_account" "cpd" {
 }
 
 resource "azurerm_storage_container" "cpd_website" {
-  name                  = "$web"
+  # why was this called $web?
+  name                  = "spikedollarweb" 
   storage_account_name  = azurerm_storage_account.cpd.name
   container_access_type = "container"
 }
